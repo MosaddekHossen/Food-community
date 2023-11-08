@@ -49,6 +49,13 @@ async function run() {
             res.send(result)
         })
 
+        // Read Request
+        app.get('/request', async (req, res) => {
+            const cursor = requestCollection.find();
+            const result = await cursor.toArray();
+            res.send(result)
+        })
+
         // Delete
         app.delete('/food/:id', async (req, res) => {
             const id = req.params.id;
