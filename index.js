@@ -6,8 +6,14 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 // MiddleWare
-app.use(cors());
+// app.use(cors());
 app.use(express.json());
+app.use(
+    cors({
+        origin: ['http://localhost:5173', 'https://123frightened-achieve.surge.sh'],
+        credentials: true,
+    }),
+)
 
 // CRUD Operations
 const uri = `mongodb+srv://${process.env.FOOD_USER}:${process.env.FOOD_PASS}@atlascluster.nqtfzbx.mongodb.net/?retryWrites=true&w=majority`;
@@ -61,6 +67,15 @@ async function run() {
             const id = req.params.id;
             const query = { _id: new ObjectId(id) }
             const result = await foodCollection.deleteOne(query);
+            res.send(result);
+        })
+
+        // Delete Request
+        app.delete('/request/:id', async (req, res) => {
+            const id = req.params.id;
+            console.log(id)
+            const query = { _id: new ObjectId(id) }
+            const result = await requestCollection.deleteOne(query);
             res.send(result);
         })
 
