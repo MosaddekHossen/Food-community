@@ -24,12 +24,21 @@ async function run() {
     try {
         // await client.connect();
         const foodCollection = client.db('foodDB').collection('food');
+        const requestCollection = client.db('RequDB').collection('Requ');
 
         // Create
         app.post('/food', async (req, res) => {
             const newFood = req.body;
             console.log(newFood)
             const result = await foodCollection.insertOne(newFood);
+            res.send(result);
+        })
+
+        // Create Request
+        app.post('/request', async (req, res) => {
+            const newFood = req.body;
+            console.log(newFood)
+            const result = await requestCollection.insertOne(newFood);
             res.send(result);
         })
 
