@@ -30,9 +30,9 @@ async function run() {
     try {
         // await client.connect();
         const foodCollection = client.db('foodDB').collection('food');
-        const requestCollection = client.db('RequDB').collection('Requ');
+        const requestCollection = client.db('foodDB').collection('reQu');
 
-        // Create
+        // Create Food
         app.post('/food', async (req, res) => {
             const newFood = req.body;
             console.log(newFood)
@@ -40,24 +40,19 @@ async function run() {
             res.send(result);
         })
 
-        // Create Request
-        app.post('/request', async (req, res) => {
-            const newFood = req.body;
-            console.log(newFood)
-            const result = await requestCollection.insertOne(newFood);
-            res.send(result);
-        })
-
         // Read
         app.get('/food', async (req, res) => {
-            const cursor = foodCollection.find();
-            const result = await cursor.toArray();
-            res.send(result)
-        })
-
-        // Read Request
-        app.get('/request', async (req, res) => {
-            const cursor = requestCollection.find();
+            // Sort
+            const filter = req.query;
+            // console.log(filter);
+            query = {};
+            const options = {
+                sort: {
+                    expiredDate: filter.sort === 'true' ? 1 : -1
+                }
+            }
+            const cursor = foodCollection.find(query, options);
+            // const cursor = foodCollection.find();
             const result = await cursor.toArray();
             res.send(result)
         })
@@ -70,16 +65,7 @@ async function run() {
             res.send(result);
         })
 
-        // Delete Request
-        app.delete('/request/:id', async (req, res) => {
-            const id = req.params.id;
-            console.log(id)
-            const query = { _id: new ObjectId(id) }
-            const result = await requestCollection.deleteOne(query);
-            res.send(result);
-        })
-
-        // Get
+        // Get Update
         app.get('/food/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: new ObjectId(id) }
@@ -109,6 +95,30 @@ async function run() {
                 }
             }
             const result = await foodCollection.updateOne(filter, product, options);
+            res.send(result);
+        })
+
+        // Create Request
+        app.post('/request', async (req, res) => {
+            const newFood = req.body;
+            console.log(newFood)
+            const result = await requestCollection.insertOne(newFood);
+            res.send(result);
+        })
+
+        // Read 
+        app.get('/request', async (req, res) => {
+            const cursor = requestCollection.find();
+            const result = await cursor.toArray();
+            res.send(result)
+        })
+
+        // Delete 
+        app.delete('/request/:id', async (req, res) => {
+            const id = req.params.id;
+            console.log(id)
+            const query = { _id: new ObjectId(id) }
+            const result = await requestCollection.deleteOne(query);
             res.send(result);
         })
 
