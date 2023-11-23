@@ -44,8 +44,13 @@ async function run() {
         app.get('/food', async (req, res) => {
             // Sort
             const filter = req.query;
-            // console.log(filter);
-            query = {};
+            console.log(filter.search);
+            query = {
+                // foodName: { $regex: filter.search, $options: 'i' }
+                // foodName: { $regex: String(filter.search || ""), $options: 'i' }
+                foodName: { $regex: String(filter.search), $options: 'i' }
+
+            };
             const options = {
                 sort: {
                     expiredDate: filter.sort === 'true' ? 1 : -1
