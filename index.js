@@ -40,6 +40,13 @@ async function run() {
             res.send(result);
         })
 
+        // Read 
+         app.get('/foods', async (req, res) => {
+            const cursor = foodCollection.find();
+            const result = await cursor.toArray();
+            res.send(result)
+        })
+
         // Read
         app.get('/food', async (req, res) => {
             // Sort
@@ -49,7 +56,6 @@ async function run() {
                 // foodName: { $regex: filter.search, $options: 'i' }
                 // foodName: { $regex: String(filter.search || ""), $options: 'i' }
                 foodName: { $regex: String(filter.search), $options: 'i' }
-
             };
             const options = {
                 sort: {
