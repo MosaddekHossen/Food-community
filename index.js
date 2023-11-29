@@ -10,7 +10,7 @@ const port = process.env.PORT || 5000;
 app.use(express.json());
 app.use(
     cors({
-        origin: ['http://localhost:5173', 'http://localhost:5175', 'https://123frightened-achieve.surge.sh'],
+        origin: ['http://localhost:5173', 'http://localhost:5174', 'https://123frightened-achieve.surge.sh'],
         credentials: true,
     }),
 )
