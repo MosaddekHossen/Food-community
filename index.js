@@ -10,7 +10,7 @@ const port = process.env.PORT || 5000;
 app.use(express.json());
 app.use(
     cors({
-        origin: ['http://localhost:5173', 'http://localhost:5174', 'https://123frightened-achieve.surge.sh'],
+        origin: ['http://localhost:5173', 'https://123frightened-achieve.surge.sh'],
         credentials: true,
     }),
 )
@@ -46,6 +46,14 @@ async function run() {
             const result = await cursor.toArray();
             res.send(result)
         })
+
+        app.get('/foods/:email', async (req, res) => {
+            const email = req.params.email;
+            const query = { userEmail: email };
+            const cursor = foodCollection.find(query);
+            const result = await cursor.toArray();
+            res.send(result);
+        });
 
         // Read 2
         app.get('/food', async (req, res) => {
@@ -116,13 +124,6 @@ async function run() {
             const result = await requestCollection.insertOne(newFood);
             res.send(result);
         })
-
-        // Read 
-        // app.get('/request', async (req, res) => {
-        //     const cursor = requestCollection.find();
-        //     const result = await cursor.toArray();
-        //     res.send(result)
-        // })
 
         // Read 
         app.get('/request', async (req, res) => {
