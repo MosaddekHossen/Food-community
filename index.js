@@ -35,7 +35,7 @@ async function run() {
         // Create Food
         app.post('/food', async (req, res) => {
             const newFood = req.body;
-            console.log(newFood)
+            // console.log(newFood)
             const result = await foodCollection.insertOne(newFood);
             res.send(result);
         })
@@ -47,6 +47,7 @@ async function run() {
             res.send(result)
         })
 
+        // User Email
         app.get('/foods/:email', async (req, res) => {
             const email = req.params.email;
             const query = { userEmail: email };
@@ -120,10 +121,19 @@ async function run() {
         // Create Request
         app.post('/request', async (req, res) => {
             const newFood = req.body;
-            console.log(newFood)
+            // console.log(newFood)
             const result = await requestCollection.insertOne(newFood);
             res.send(result);
         })
+
+        // User Email
+        app.get('/request/:email', async (req, res) => {
+            const email = req.params.email;
+            const query = { userEmail: email };
+            const cursor = requestCollection.find(query);
+            const result = await cursor.toArray();
+            res.send(result);
+        });
 
         // Read 
         app.get('/request', async (req, res) => {
@@ -135,7 +145,7 @@ async function run() {
         // Delete 
         app.delete('/request/:id', async (req, res) => {
             const id = req.params.id;
-            console.log(id)
+            // console.log(id)
             const query = { _id: new ObjectId(id) }
             const result = await requestCollection.deleteOne(query);
             res.send(result);
