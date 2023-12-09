@@ -6,14 +6,14 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 // MiddleWare
-// app.use(cors());
+app.use(cors());
 app.use(express.json());
-app.use(
-    cors({
-        origin: ['http://localhost:5173', 'https://123frightened-achieve.surge.sh'],
-        credentials: true,
-    }),
-)
+// app.use(
+//     cors({
+//         origin: ['http://localhost:5173', 'http://utopian-goat.surge.shurplussaver.surge.sh/'],
+//         credentials: true,
+//     }),
+// );
 
 // CRUD Operations
 const uri = `mongodb+srv://${process.env.FOOD_USER}:${process.env.FOOD_PASS}@atlascluster.nqtfzbx.mongodb.net/?retryWrites=true&w=majority`;
@@ -60,7 +60,7 @@ async function run() {
         app.get('/food', async (req, res) => {
             // Sort
             const filter = req.query;
-            console.log(filter.search);
+            // console.log(filter.search);
             query = {
                 // foodName: { $regex: filter.search, $options: 'i' }
                 // foodName: { $regex: String(filter.search || ""), $options: 'i' }
