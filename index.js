@@ -6,14 +6,14 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 // MiddleWare
-app.use(cors());
+// app.use(cors());
 app.use(express.json());
-// app.use(
-//     cors({
-//         origin: ['http://localhost:5173', 'http://utopian-goat.surge.shurplussaver.surge.sh/'],
-//         credentials: true,
-//     }),
-// );
+app.use(
+    cors({
+        origin: ['http://localhost:5173', 'http://utopian-goat.surge.shurplussaver.surge.sh'],
+        credentials: true,
+    }),
+);
 
 // CRUD Operations
 const uri = `mongodb+srv://${process.env.FOOD_USER}:${process.env.FOOD_PASS}@atlascluster.nqtfzbx.mongodb.net/?retryWrites=true&w=majority`;
