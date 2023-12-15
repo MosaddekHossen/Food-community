@@ -121,7 +121,7 @@ async function run() {
         // Create Request
         app.post('/request', async (req, res) => {
             const newFood = req.body;
-            // console.log(newFood)
+            console.log(newFood)
             const result = await requestCollection.insertOne(newFood);
             res.send(result);
         })
@@ -136,8 +136,10 @@ async function run() {
         });
 
         // Read 
-        app.get('/request', async (req, res) => {
-            const cursor = requestCollection.find();
+        app.get('/requests/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { id: id }
+            const cursor = requestCollection.find(query);
             const result = await cursor.toArray();
             res.send(result)
         })
