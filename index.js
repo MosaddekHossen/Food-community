@@ -10,7 +10,7 @@ const port = process.env.PORT || 5000;
 app.use(express.json());
 app.use(
     cors({
-        origin: ['http://localhost:5173', 'http://utopian-goat.surge.shurplussaver.surge.sh'],
+        origin: ['http://localhost:5174', 'http://utopian-goat.surge.shurplussaver.surge.sh'],
         credentials: true,
     }),
 );
@@ -142,6 +142,19 @@ async function run() {
             const cursor = requestCollection.find(query);
             const result = await cursor.toArray();
             res.send(result)
+        })
+
+        // Manage deliver 
+        app.patch('/request/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: new ObjectId(id) }
+            const upDatedFood = {
+                $set: {
+                    foodStatus: "Delivered"
+                }
+            }
+            const result = await requestCollection.updateOne(filter, upDatedFood);
+            res.send(result);
         })
 
         // Delete 
